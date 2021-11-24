@@ -65,3 +65,5 @@ const safeCallback = function (type, method, element, args) {
     message += '#' + (method.name || '(anonymous)')
   }
 }
+
+export default Events
