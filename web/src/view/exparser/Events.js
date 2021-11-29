@@ -66,4 +66,6 @@ const safeCallback = function (type, method, element, args) {
   }
 }
 
+Events.safeCallback = safeCallback
+
 export default Events

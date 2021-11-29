@@ -1,4 +1,6 @@
 import Behavior from "./Behavior"
+import Events from "./Events"
+import Observer from "./Observer"
 
 function camelToDashed(txt) {
   return txt.replace(/[A-Z]/g, function(ch) {
@@ -87,8 +89,80 @@ Component.register = function(nElement) {
     propDefination[propKey] = {
       enumerable: true,
       get: function () {
+        let propData = this.__propData[propKey]
+        return void 0 === propData 
+          ? behaviorProperties[propKey].value
+          : propData  
+      },
+      set: function (value) {
+        let behProp = behaviorProperties[propKey]
+        value = normalizeValue(value, behProp.type)
+        let propData = this.__propData[propKey] // old val
         
+        if (behProp.coerce) {
+          let realVal = Events.safeCallback(
+            'Property Filter',
+            behProp.coerce,
+            this,
+            [value, propData]
+          )
+          void 0 !== realVal && (value = realVal)
+        }
+        if (value !== propData) {
+          // value changed
+          this.__propData[propKey] = value
+          behProp.public && setAttribute(this, behProp, propKey, value)
+          // this.__templateInstance.
+          behProp.observer &&
+            Events.safeCallback('Property Observer', behProp.observer, this, [
+              value, propData
+            ])
+          if (behProp.public) {
+            if (
+              (this.__propObservers && !this.__propObservers.empty) ||
+              this.__subtreeObserversCount
+            ) {
+              Observer._callObservers(this, '__propObservers', {
+                type: 'properties',
+                target: this,
+                propertyName: propKey
+              })
+            }
+          }
+        }
       }
     }
-  })
+  }) // end forEach
+
+  let proto = Object.create(Element.prototype, propDefination)
+  proto.__behavior = componentBehavior
+  for (let methodName in  componentBehavior.methods) {
+    proto[methodName] = componentBehavior.method[methodName]
+  }
+  proto.__lifeTimeFuncs = componentBehavior.getAllLifeTimeFuncs()
+  let publicProps = Object.create(null),
+    defaultValuesJSON = {}
+  for (let propName in behaviorProperties) {
+    defaultValuesJSON[propName] = behaviorProperties[propName].value
+    publicProps[propName] = !!behaviorProperties[propName].public
+  }
+
+  let insElement = document.getElementById(componentBehavior.is)
+  if (
+    !componentBehavior.template &&
+    insElement &&
+    insElement.tagName === 'TEMPLATE'
+  ) {
+
+  } else {
+    insElement = document.createElement('template')
+    insElement.template = componentBehavior.template || ''
+  }
+  
+  
 }
+
+Component.create = function (tagName) {
+  
+}
+
