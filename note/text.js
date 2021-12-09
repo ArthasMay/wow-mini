@@ -4,8 +4,8 @@ const template = {
 }
 
 function test () {
-  let insElement = document.createElement('template')
-  insElement.innerHTML = template.template
+  // let insElement = document.createElement('template')
+  // insElement.innerHTML = template.template
   
   // let content = 
 
@@ -17,7 +17,11 @@ function test () {
 
   // console.log(!!'')
 
-  console.log(insElement.content.childNodes)
+  // console.log(insElement.content.childNodes)
+
+  for (;!0;) {
+    console.log('sss')
+  }
 }
 
 test()

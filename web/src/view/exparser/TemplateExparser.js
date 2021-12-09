@@ -41,7 +41,7 @@ TemplateParser.parse = function (value, methods) {
         callee: args            // 参数
       }
 
-      tempObj.bindedPropList = bindedPropList // 关联的data key
+      tempObj.bindedProps = bindedPropList // 关联的data key
       tempObj.isSingleLetiable = slices.length === 3 && slices[0] === '' && slices[2] === '' // 仅表达式{{type}}这样的  非 left: {{_progressLeft}}px 
       tempObj._slices = slices
       tempObj._methods = methods

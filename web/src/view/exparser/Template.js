@@ -1,4 +1,7 @@
+import BoundProps from './BoundProps'
 import calculate from './TemplateExparser'
+import TextNode from './TextNode'
+import element from './Element'
 
 const dollarSign = String.fromCharCode(36)
 
@@ -35,7 +38,11 @@ function domRendering (nodes, shadowRoot, idMap, slots, binding) { // 将 nodes 
   for (; rootIdx < nodes.length; rootIdx++) {
     let node = nodes[rootIdx]
     if (node.name === undefined) {
-      newNode =  s
+      newNode = TextNode.create(node.text)
+      node.exp && binding.add(node.exp, newNode.__domElement, 'textContent', setObjAttr)
+      // element.appendChild(shadowRoot, newNode)
+    } else {
+      let att
     }
   }
 }

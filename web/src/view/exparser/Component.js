@@ -166,3 +166,7 @@ Component.create = function (tagName) {
   
 }
 
+Component.__callLifeTimeFuncs = function (ele, funcName) {
+   let func = ele.__lifeTimeFuncs(ele, funcName)
+   func.call(ele, [])
+}
