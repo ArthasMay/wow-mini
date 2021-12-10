@@ -33,18 +33,24 @@ const setObjAttr = function (obj, key, value) {
   obj[key] = value
 }
 
-function domRendering (nodes, shadowRoot, idMap, slots, binding) { // 将 nodes 追加到ShadowRoot下 tagTree
-  let newNode = nul, attrIdx = 0, attr = null, rootIdx = 0
-  for (; rootIdx < nodes.length; rootIdx++) {
-    let node = nodes[rootIdx]
-    if (node.name === undefined) {
-      newNode = TextNode.create(node.text)
-      node.exp && binding.add(node.exp, newNode.__domElement, 'textContent', setObjAttr)
-      // element.appendChild(shadowRoot, newNode)
-    } else {
-      let att
-    }
-  }
+// function domRendering (nodes, shadowRoot, idMap, slots, binding) { // 将 nodes 追加到ShadowRoot下 tagTree
+//   let newNode = nul, attrIdx = 0, attr = null, rootIdx = 0
+//   for (; rootIdx < nodes.length; rootIdx++) {
+//     let node = nodes[rootIdx]
+//     if (node.name === undefined) {
+//       newNode = TextNode.create(node.text)
+//       node.exp && binding.add(node.exp, newNode.__domElement, 'textContent', setObjAttr)
+//       element.appendChild(shadowRoot, newNode)
+//     } else {
+//       let att
+//     }
+//   }
+// }
+
+function nativeRendering(nodes, shadowRoot, idMap, slots, binding) {
+  let tempNode = null,
+    attrIdx = 0,
+    
 }
 
 const Template = function () {}

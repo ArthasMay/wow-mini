@@ -19,9 +19,42 @@ function test () {
 
   // console.log(insElement.content.childNodes)
 
-  for (;!0;) {
-    console.log('sss')
-  }
+  
 }
 
-test()
+const Element = function () {}
+Element.prototype = Object.create(Object.prototype, {
+  constructor: {
+    value: Element,
+    writable: true,
+    configurable: true
+  }
+})
+
+const VirtualNode = function () {}
+VirtualNode.prototype = Object.create(Element.prototype, {
+  constructor: {
+    value: VirtualNode,
+    writable: true,
+    configurable: true
+  }
+})
+
+// createVirtualNode
+VirtualNode.create = function (is) {
+  const insVirtualNode = Object.create(VirtualNode.prototype)
+  insVirtualNode.__virtual = true
+  insVirtualNode.is = is
+  // Element.initialize(insVirtualNode, null) // 第二个null参数没用？
+  return insVirtualNode
+}
+
+// test()
+
+
+
+;(function testName(oldNode) {
+  oldNode = "sss"
+  console.log(oldNode)
+}())
+
